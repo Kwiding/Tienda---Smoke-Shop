@@ -1,4 +1,7 @@
 <?php
+
+include '../../config/database.php';
+
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Simula la validación de usuario (reemplaza esto con tu lógica de base de datos)
