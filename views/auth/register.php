@@ -12,7 +12,7 @@
                         <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
                     <?php endif; ?>
                     
-                    <form action="/register" method="POST" id="registerForm">
+                    <form action="../../config/register.php" method="POST" id="registerForm">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Nombre Completo</label>
@@ -37,7 +37,7 @@
                         
                         <div class="mb-3">
                             <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
-                            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
                             <small class="text-muted">Debes ser mayor de 18 años para registrarte</small>
                         </div>
                         
@@ -82,7 +82,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
         return false;
     }
     
-    const birthDate = new Date(document.getElementById('birth_date').value);
+    const birthDate = new Date(document.getElementById('date_of_birth').value);
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();

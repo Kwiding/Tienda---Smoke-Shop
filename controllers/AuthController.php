@@ -8,34 +8,29 @@ class AuthController {
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar edad (mínimo 18 años)
-            $age = date_diff(date_create($_POST['birth_date']), date_create('today'))->y;
+            // 1. Validar datos (edad, email, etc.)
+            $age = calcularEdad($_POST['birth_date']);
             if ($age < 18) {
-                $_SESSION['error'] = "Debes ser mayor de 18 años para registrarte";
+                $_SESSION['error'] = "Debes ser mayor de 18 años";
                 header("Location: /register");
                 exit;
             }
-
-            $data = [
-                'name' => trim($_POST['name']),
-                'email' => trim($_POST['email']),
-                'password' => password_hash(trim($_POST['password']), PASSWORD_DEFAULT),
-                'role' => 'customer',
-                'birth_date' => $_POST['birth_date'],
-                'address' => trim($_POST['address']),
-                'phone' => trim($_POST['phone'])
-            ];
-
-            if ($this->userModel->create($data)) {
-                $_SESSION['success'] = "Registro exitoso. Por favor inicia sesión.";
-                header("Location: /login");
+    
+            // 2. Guardar usuario en BD
+            $userModel = new User($this->db);
+            if ($userModel->create($_POST)) {
+                // 3. Redirigir al login con mensaje de éxito
+                $_SESSION['success'] = "¡Registro exitoso! Por favor inicia sesión";
+                header("Location: /login");  // 👈 Redirección clave
+                exit;
             } else {
-                $_SESSION['error'] = "Error al registrar. El email ya existe.";
+                $_SESSION['error'] = "El email ya está registrado";
                 header("Location: /register");
+                exit;
             }
-        } else {
-            include 'views/auth/register.php';
         }
+        // Mostrar vista de registro
+        include 'views/auth/register.php';
     }
 
     public function login() {

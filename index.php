@@ -1,16 +1,22 @@
 <?php
-require_once 'config/database.php';
-require_once 'models/Product.php';
-require_once 'models/User.php';
-require_once 'models/Category.php';
-require_once 'controllers/ProductController.php';
-require_once 'controllers/AuthController.php';
-require_once 'controllers/CategoryController.php';
-require_once 'controllers/CartController.php';
+require_once '../config/database.php';
+require_once '../models/Product.php';
+require_once '../models/User.php';
+require_once '../models/Category.php';
+require_once '../controllers/ProductController.php';
+require_once '../controllers/AuthController.php';
+require_once '../controllers/CategoryController.php';
+require_once '../controllers/CartController.php';
 
 // Conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
+
+if ($db) {
+    echo "Conexión exitosa a la base de datos.";
+} else {
+    echo "Error al conectar a la base de datos.";
+}
 
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : 'home';
@@ -20,7 +26,7 @@ $url = explode('/', $url);
 // Enrutamiento básico
 switch($url[0]) {
     case 'home':
-        include 'views/home.php';
+        include '../views/home.php';
         break;
     case 'products':
         $productController = new ProductController($db);
@@ -49,7 +55,7 @@ switch($url[0]) {
         }
         break;
     default:
-        include 'views/home.php';
+        include '../views/home.php';
         break;
 }
 ?>

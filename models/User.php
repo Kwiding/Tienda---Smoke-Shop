@@ -26,8 +26,8 @@ class User {
         }
 
         $query = "INSERT INTO " . $this->table . " 
-                 (name, email, password, role, birth_date, address, phone, verification_token)
-                 VALUES (:name, :email, :password, :role, :birth_date, :address, :phone, :verification_token)";
+                 (name, email, password, role, date_of_birth, address, phone, verification_token)
+                 VALUES (:name, :email, :password, :role, :date_of_birth, :address, :phone, :verification_token)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -39,7 +39,7 @@ class User {
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':password', $data['password']);
         $stmt->bindParam(':role', $data['role']);
-        $stmt->bindParam(':birth_date', $data['birth_date']);
+        $stmt->bindParam(':date_of_birth', $data['birth_date']);
         $stmt->bindParam(':address', $data['address']);
         $stmt->bindParam(':phone', $data['phone']);
         $stmt->bindParam(':verification_token', $token);

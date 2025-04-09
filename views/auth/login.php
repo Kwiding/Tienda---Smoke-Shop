@@ -31,6 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-gray-100">
     <div class="max-w-md mx-auto mt-40 bg-white p-6 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold text-center mb-6 text-purple-800">Iniciar Sesión</h1>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+        <?php endif; ?>
         <?php if (isset($error)): ?>
             <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
                 <?php echo $error; ?>
