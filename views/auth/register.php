@@ -1,4 +1,4 @@
-<?php include 'partials/header.php'; ?>
+<?php include '../partials/header.php'; ?>
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -101,4 +101,4 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
 });
 </script>
 
-<?php include 'partials/footer.php'; ?>
+<?php include '../partials/footer.php'; ?>
