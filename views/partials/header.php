@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GreenLeaf - <?php echo $pageTitle ?? 'Tienda de Cannabis'; ?></title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="description" content="Tienda especializada en productos de cannabis medicinal y recreativo de alta calidad">
 
     <!-- Favicon -->

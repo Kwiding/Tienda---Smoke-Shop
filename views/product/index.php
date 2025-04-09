@@ -1,10 +1,11 @@
-<?php include '../views/partials/header.php'; ?>
-<?php include '../views/partials/navbar.php'; ?>
+<?php include '../partials/header.php'; ?>
+<?php include '../partials/navbar.php'; ?>
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Nuestras Variedades de Cannabis</h1>
     
     <div class="row">
+        <?php if (isset($products) && $products instanceof PDOStatement): ?>
         <?php while ($product = $products->fetch(PDO::FETCH_ASSOC)): ?>
         <div class="col-md-4 mb-4">
             <div class="card h-100 cannabis-card">
@@ -25,9 +26,11 @@
                     </div>
                 </div>
             </div>
-        </div>
         <?php endwhile; ?>
+        <?php else: ?>
+        <p class="text-center">No hay productos disponibles en este momento.</p>
+        <?php endif; ?>
     </div>
 </div>
 
-<?php include '../views/partials/footer.php'; ?>
+<?php include '../partials/footer.php'; ?>

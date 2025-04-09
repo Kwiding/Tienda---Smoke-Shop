@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password" class="block text-gray-700 font-medium mb-2">Contraseña</label>
                 <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
-            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition font-semibold" formaction="../home.php">Ingresar</button>
+            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition font-semibold" formaction="../product/index.php">Ingresar</button>
         </form>
     </div>
 </body>
