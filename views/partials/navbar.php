@@ -71,7 +71,7 @@
                         </ul>
                     </div>
                 <?php else: ?>
-                    <a href="views\auth\login.php" class="btn btn-outline-light">
+                    <a href="views/auth/login.php" class="btn btn-outline-light">
                         <i class="fas fa-sign-in-alt me-1"></i> Ingresar
                     </a>
                 <?php endif; ?>

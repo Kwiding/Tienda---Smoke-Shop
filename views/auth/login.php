@@ -23,24 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Iniciar Sesión</h1>
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto mt-40 bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold text-center mb-6 text-purple-800">Iniciar Sesión</h1>
         <?php if (isset($error)): ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                <?php echo $error; ?>
+            </div>
         <?php endif; ?>
         <form method="POST" action="/login">
-            <div class="mb-3">
-                <label for="username" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-medium mb-2">Usuario</label>
+                <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 font-medium mb-2">Contraseña</label>
+                <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
-            <button type="submit" class="btn btn-success w-100">Ingresar</button>
+            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition font-semibold" formaction="../home.php">Ingresar</button>
         </form>
     </div>
 </body>
