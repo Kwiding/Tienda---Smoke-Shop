@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #2C3E50, #4A00E0);
+    color: #e0f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-weight: 300;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px; /* Ajustado para el formulario */
+}
+
+.form-page {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+}
+
+.form-card h2 {
+    color: #b3e5fc;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #e0f7fa;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
+.confirm-button {
+    background-color: #388e3c;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 400;
+    width: 100%;
+}
+
+.confirm-button:hover {
+    background-color: #4caf50;
+}

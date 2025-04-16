@@ -10,51 +10,45 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <nav>
-                <a href="#"><i class="fas fa-file-alt"></i> Gestión de Pedidos</a>
-            </nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar Pedido...">
+        <main class="management-page">
+            <div class="management-header">
+                <i class="fas fa-file-alt"></i>
+                <h2>Gestionar Pedidos</h2>
             </div>
-        </header>
-
-        <main>
-            <h2>Gestionar Pedidos</h2>
             <div class="orders-table">
                 <table>
                     <thead>
                         <tr>
                             <th>Nº de Pedido</th>
-                            <th>Precio</th>
+                            <th>Cliente</th>
                             <th>Fecha</th>
+                            <th>Total</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>$ 20.000</td>
-                            <td>2024-03-18</td>
+                            <td>#001</td>
+                            <td>Ana Pérez</td>
+                            <td>2025-04-15</td>
+                            <td>$ 54.520</td>
                             <td class="status pendiente">Pendiente</td>
+                            <td class="actions">
+                                <button class="view-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                            </td>
                         </tr>
                         <tr>
-                            <td>2</td>
-                            <td>$ 130.570</td>
-                            <td>2024-09-29</td>
+                            <td>#002</td>
+                            <td>Carlos López</td>
+                            <td>2025-04-10</td>
+                            <td>$ 125.990</td>
                             <td class="status enviado">Enviado</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>$ 55.200</td>
-                            <td>2025-01-15</td>
-                            <td class="status pendiente">Pendiente</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>$ 88.990</td>
-                            <td>2025-04-01</td>
-                            <td class="status enviado">Enviado</td>
+                            <td class="actions">
+                                <button class="view-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                            </td>
                         </tr>
                         </tbody>
                 </table>

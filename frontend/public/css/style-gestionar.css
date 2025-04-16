@@ -11,66 +11,39 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 900px; /* Ajustado para la tabla */
+    width: 95%;
+    max-width: 1000px;
+}
+
+.management-page {
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 12px;
-    padding: 30px;
+    padding: 40px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-nav a {
-    color: #e0f7fa;
-    text-decoration: none;
-    font-weight: 400;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: #b3e5fc;
-}
-
-nav a i {
-    margin-right: 8px;
-}
-
-.search-bar input {
-    padding: 12px 18px;
-    border-radius: 8px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #e0f7fa;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-}
-
-.search-bar input::placeholder {
-    color: rgba(224, 247, 250, 0.5);
-}
-
-main h2 {
+.management-header {
     color: #b3e5fc;
     margin-bottom: 30px;
     text-align: center;
+}
+
+.management-header i {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.management-header h2 {
     font-weight: 500;
+    margin-top: 0;
 }
 
 .orders-table {
     width: 100%;
     border-radius: 10px;
-    overflow: hidden; /* Para redondear las esquinas de la tabla */
+    overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
 }
 
 .orders-table table {
@@ -98,6 +71,35 @@ main h2 {
 
 .orders-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+.actions {
+    text-align: center;
+}
+
+.view-btn, .edit-btn {
+    background-color: transparent;
+    color: #b3e5fc;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.view-btn:hover {
+    background-color: rgba(66, 165, 245, 0.2); /* Azul claro */
+    color: #42a5f5;
+}
+
+.edit-btn:hover {
+    background-color: rgba(139, 195, 74, 0.2); /* Verde claro */
+    color: #8bc34a;
+}
+
+.view-btn i, .edit-btn i {
+    margin-right: 5px;
 }
 
 .status {

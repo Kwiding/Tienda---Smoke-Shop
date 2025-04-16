@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Pedido {Número}</title>
+    <link rel="stylesheet" href="/frontend/public/css/style-detalle-pedido.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="#"><i class="fas fa-info-circle"></i> Detalles del pedido</a>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar...">
+            </div>
+        </header>
+
+        <main>
+            <h2>Detalles del pedido {Número}</h2>
+            <div class="order-details-grid">
+                <div class="order-actions">
+                    <h3>Cambiar estado del pedido:</h3>
+                    <select>
+                        <option>Pendiente</option>
+                        <option>Enviado</option>
+                        <option>Entregado</option>
+                        <option>Cancelado</option>
+                    </select>
+                </div>
+
+                <div class="order-items">
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="/frontend/public/img/gotas.jpg" alt="Gotas cannabicas">
+                        </div>
+                        <div class="item-info">
+                            <p><strong>Nombre:</strong> Gotas cannabicas</p>
+                            <p><strong>Precio:</strong> $ 22.540</p>
+                            <div class="stock-quantity">
+                                <label for="cantidad1"><strong>Stock:</strong></label>
+                                <input type="number" id="cantidad1" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="/frontend/public/img/gotas.jpg" alt="Gotas cannabicas">
+                        </div>
+                        <div class="item-info">
+                            <p><strong>Nombre:</strong> Gotas cannabicas</p>
+                            <p><strong>Precio:</strong> $ 22.540</p>
+                            <div class="stock-quantity">
+                                <label for="cantidad2"><strong>Stock:</strong></label>
+                                <input type="number" id="cantidad2" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="shipping-info">
+                    <h3>Dirección de envío</h3>
+                    <p><strong>Dirección de envío:</strong> cuba- no se que casa</p>
+                    <p><strong>Departamento:</strong> (departamento ingresado)</p>
+                    <p><strong>Ciudad:</strong> (la cuidad ingresada)</p>
+                    <p><strong>Teléfono:</strong> (teléfono ingresado)</p>
+                </div>
+
+                <div class="order-data">
+                    <h3>Datos del pedido</h3>
+                    <p><strong>Número de pedido:</strong> 2</p>
+                    <p><strong>Total a pagar:</strong> $ 24.000</p>
+                    <p><strong>Productos:</strong></p>
+                    <div class="order-image">
+                        <img src="/frontend/public/img/gotas.jpg" alt="Imagen del carrito">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

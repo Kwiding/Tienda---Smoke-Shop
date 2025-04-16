@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #2C3E50, #4A00E0);
+    color: #e0f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-weight: 300;
+}
+
+.container {
+    width: 90%;
+    max-width: 700px; /* Ancho más centrado para la confirmación */
+}
+
+.confirmation-page {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.confirmation-header {
+    color: #8bc34a;
+    margin-bottom: 30px;
+}
+
+.confirmation-header i {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.confirmation-header h2 {
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.confirmation-details {
+    text-align: left;
+}
+
+.confirmation-details p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.confirmation-details h3 {
+    color: #b3e5fc;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.order-summary {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.order-summary li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.order-summary li:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+}
+
+.item-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.item-price {
+    font-weight: 400;
+    color: #80deea;
+}
+
+.total {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-top: 30px;
+    text-align: right;
+}
+
+.confirmation-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 400;
+    transition: opacity 0.3s ease;
+    margin: 0 10px;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.button.primary {
+    background-color: #388e3c;
+}
+
+.button.secondary {
+    background-color: #1e88e5;
+}
+
+address {
+    font-style: normal;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
