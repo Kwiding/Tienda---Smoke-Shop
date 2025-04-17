@@ -1,8 +1,4 @@
 <?php 
-// Asegúrate de que $featuredProducts esté definido antes de incluir este archivo.
-// Ejemplo de inicialización (esto debería estar en el archivo que incluye home.php):
-// $featuredProducts = $pdo->query("SELECT id, name, price, image FROM products WHERE featured = 1 LIMIT 8");
-
 include 'partials/header.php'; 
 include 'partials/navbar.php'; 
 ?>

@@ -53,16 +53,14 @@ function initAgeVerification() {
             if (age >= 18) {
                 // Guardar en sessionStorage para no preguntar de nuevo
                 sessionStorage.setItem('ageVerified', 'true');
-                document.querySelector('.age-verification-overlay').style.display = 'none';
+                const overlay = document.querySelector('.age-verification-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
             } else {
                 window.location.href = 'https://www.google.com';
             }
         });
-    }
-    
-    // Verificar si ya está verificado
-    if (!sessionStorage.getItem('ageVerified') && !window.location.pathname.includes('age-verification')) {
-        document.querySelector('.age-verification-overlay').style.display = 'flex';
     }
 }
 

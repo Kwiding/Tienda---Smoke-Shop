@@ -12,7 +12,7 @@
                         <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
                     <?php endif; ?>
                     
-                    <form action="/register" method="POST" id="registerForm">
+                    <form action="../../config/register.php" method="POST" id="registerForm">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Nombre Completo</label>
