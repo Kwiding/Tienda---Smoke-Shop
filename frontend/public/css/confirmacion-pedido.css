@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #2C3E50, #4A00E0);
+    background-image: linear-gradient(to bottom, #059B9A, #8E407A);
     color: #e0f7fa;
     display: flex;
     justify-content: center;
