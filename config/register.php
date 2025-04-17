@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email' => trim($_POST['email']),
         'password' => password_hash(trim($_POST['password']), PASSWORD_DEFAULT),
         'role' => 'customer',
-        'date_of_birth' => $_POST['date_of_birth'],
+        'birth_date' => $_POST['birth_date'], // Asegurarse que coincide con el nombre del campo del formulario
         'address' => trim($_POST['address']),
         'phone' => trim($_POST['phone'])
     ];

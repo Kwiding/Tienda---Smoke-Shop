@@ -9,7 +9,7 @@ class AuthController {
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 1. Validar datos (edad, email, etc.)
-            $age = calcularEdad($_POST['birth_date']);
+            $age = calcularEdad($_POST['date_of_birth']);
             if ($age < 18) {
                 $_SESSION['error'] = "Debes ser mayor de 18 años";
                 header("Location: /register");
