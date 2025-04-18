@@ -43,6 +43,37 @@ main {
     text-align: center;
 }
 
+/* navbar */
+.main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-navbar a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.main-navbar a:hover {
+    color: #007bff;
+}
+
 .product {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -88,4 +119,53 @@ main {
     margin-top: 20px;
     color: #fff;
     text-decoration: none;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-card h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.product-card .precio {
+    font-size: 1.2em;
+    color: #e44d26;
+    font-weight: bold;
+}
+
+.product-card .descripcion {
+    color: #666;
+    margin: 10px 0;
+}
+
+.product-card .stock {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.product-card .categoria {
+    color: #666;
+    font-style: italic;
 }

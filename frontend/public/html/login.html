@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <form class="login-form" method="POST" action="../../../backend/php/login.php">
+            <h1>Iniciar Sesión</h1>
+            <div class="avatar">
+                <img src="../img/user.png" alt="Avatar">
+            </div>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Contraseña:</label>
+            <input type="password" name="password" required>
+            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+</body>
+</html>
