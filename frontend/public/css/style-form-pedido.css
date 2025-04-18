@@ -30,6 +30,7 @@ body {
     border-radius: 10px;
     padding: 30px;
     width: 100%;
+    background-image: url('/frontend/public/img/istockphoto-1387490630-612x612.jpg');
 }
 
 .form-card h2 {
