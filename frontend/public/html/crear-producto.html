@@ -4,30 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="/frontend/public/css/style2.css">
+    <link rel="stylesheet" href="../css/style2.css">
 </head>
 <body>
     <div class="container">
-        <form class="login-form" method="POST" action="../../../backend/php/crear_producto.php">
-
+        <form class="login-form" method="POST" action="../../../backend/php/crear_producto.php" enctype="multipart/form-data">
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
 
             <label for="categoria">Categoría</label>
-            <input type="text" id="categoria" placeholder="Categoría" required>
+            <select id="categoria" name="categoria_id" required>
+                <option value="">Seleccione una categoría</option>
+                <option value="1">Fumable</option>
+                <option value="2">Comestible</option>
+                <option value="3">Pipas</option>
+                <option value="4">Gadgets</option>
+            </select>
 
             <label for="stock">Stock</label>
-            <input type="text" id="stock" placeholder="" required>
+            <input type="number" id="stock" name="stock" required>
 
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" placeholder="Descripción" rows="4" required></textarea> 
+            <textarea id="descripcion" name="descripcion" placeholder="Descripción" rows="4" required></textarea> 
 
             <label for="precio">Precio</label>
-            <input type="number" id="precio" placeholder="" required>
+            <input type="number" id="precio" name="precio" step="0.01" required>
 
             <label for="imagen">Imagen</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" required>
-
+            <input type="file" id="imagen" name="imagen" accept="image/*" >
             
             <button type="submit">Crear producto</button>
         </form>
