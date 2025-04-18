@@ -1,12 +1,16 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background: url('/frontend/public/img/istockphoto-1387490630-612x612.jpg') no-repeat center center fixed;
+    background: url('../img/login.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+h1{
+    text-align: center;
 }
 
 .container {
