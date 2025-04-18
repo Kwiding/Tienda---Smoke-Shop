@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['rol'] = $usuario['rol'];
         
         if ($usuario['rol'] == 'admin') {
-            header("Location: ../../frontend/public/html/gestinar-producto.html");
+            header("Location: ../../frontend/public/html/gestinar-producto.php");
             exit();
         } else {
             header("Location: productos.php");
