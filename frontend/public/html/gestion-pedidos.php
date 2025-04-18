@@ -50,8 +50,14 @@
                             echo "<td class='status " . strtolower($row['estado']) . "'>" . $row['estado'] . "</td>";
                             echo "<td>" . $row['fecha'] . " " . $row['hora'] . "</td>";
                             echo "<td class='actions'>
-                                    <button class='view-btn'><i class='fas fa-eye'></i></button>
-                                    <button class='edit-btn'><i class='fas fa-edit'></i></button>
+                                    <a href='../../../backend/php/eliminar_pedido.php?id=" . $row['id'] . "' 
+                                       class='delete-btn' 
+                                       onclick='return confirm(\"¿Estás seguro de que deseas eliminar este pedido?\")'>
+                                        <i class='fas fa-trash'></i>
+                                    </a>
+                                    <a href='editar_pedido.php?id=" . $row['id'] . "' class='edit-btn'>
+                                        <i class='fas fa-edit'></i>
+                                    </a>
                                   </td>";
                             echo "</tr>";
                         }

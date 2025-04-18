@@ -114,7 +114,7 @@ body {
     color: #007bff;
 }
 
-.view-btn, .edit-btn {
+.fa-trash, .edit-btn {
     background-color: transparent;
     color: #b3e5fc;
     border: none;
@@ -125,7 +125,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.view-btn:hover {
+.fa-trash:hover {
     background-color: rgba(66, 165, 245, 0.2); /* Azul claro */
     color: #42a5f5;
 }
@@ -135,7 +135,7 @@ body {
     color: #8bc34a;
 }
 
-.view-btn i, .edit-btn i {
+.fa-trash i, .edit-btn i {
     margin-right: 5px;
 }
 
