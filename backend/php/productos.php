@@ -1,8 +1,4 @@
 <?php
-// Activa la visualización de errores
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Conexión a la base de datos
 include('conexion-bd.php');
 
@@ -10,13 +6,19 @@ include('conexion-bd.php');
 $query = "SELECT * FROM productos";
 $resultado = mysqli_query($conexion, $query);
 
+// Obtener las categorías para mostrarlas en el menú de navegación
+$categorias_query = "SELECT * FROM categorias";
+$categorias_result = mysqli_query($conexion, $categorias_query);
+
 // Verificar si la consulta tiene resultados
 if (mysqli_num_rows($resultado) == 0) {
     echo "No hay productos disponibles";
 } else {
     echo "Productos encontrados: " . mysqli_num_rows($resultado);
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,6 +31,12 @@ if (mysqli_num_rows($resultado) == 0) {
     <div class="container">
         <header>
             <nav>
+                <!-- Mostrar las categorías dinámicamente -->
+                <?php while ($categoria = mysqli_fetch_assoc($categorias_result)) : ?>
+                    <a href="productos.php?categoria_id=<?php echo $categoria['id']; ?>">
+                        <?php echo $categoria['nombre']; ?>
+                    </a>
+                <?php endwhile; ?>
                 <a href="#"><i class="fas fa-home"></i> Inicio</a>
                 <a href="#"><i class="fas fa-user"></i> Iniciar Sesión</a>
                 <a href="#"><i class="fas fa-user-plus"></i> Registrarse</a>
