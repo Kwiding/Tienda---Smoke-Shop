@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
     <div class="container">
         <form class="login-form" method="POST" action="../../../backend/php/login.php">
@@ -19,7 +21,17 @@
             <input type="password" name="password" required>
             <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
             <button type="submit">Iniciar Sesión</button>
+            <p style="text-align: center;">Or</p>
+            <a href="register.html" class="register-link">Crear una cuenta</a>
         </form>
     </div>
+    <style>
+        .register-link {
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
 </body>
+
 </html>

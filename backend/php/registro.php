@@ -40,12 +40,12 @@ if ($stmt) {
     if ($stmt->execute()) {
         echo "<script>
             alert('Usuario registrado correctamente');
-            window.location.href = '/frontend/public/html/login.html';
+            window.location.href = '../../frontend/public/html/login.html';
         </script>";
     } else {
         echo "<script>
             alert('Error al registrar: " . $stmt->error . "');
-            window.location.href = '/frontend/public/html/register.html';
+            window.location.href = '../../frontend/public/html/register.html';
         </script>";
     }
 
