@@ -72,6 +72,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
         <header>
             <nav>
                 <a href="#"><i class="fas fa-shopping-cart"></i> Carrito de compras</a>
+                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
             </nav>
             <div class="search-bar">
                 <input type="text" placeholder="Buscar">

@@ -48,6 +48,7 @@ if (mysqli_num_rows($resultado) == 0) {
                     </a>
                 <?php endwhile; ?>
                 <a href="carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
+                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
             </nav>
         </header>
 
