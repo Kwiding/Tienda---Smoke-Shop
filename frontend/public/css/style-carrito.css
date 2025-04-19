@@ -72,8 +72,10 @@ main {
 }
 
 .cart-item img {
-    max-width: 150px;
-    border-radius: 5px;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .remove-item {

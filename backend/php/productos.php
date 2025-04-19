@@ -1,9 +1,19 @@
 <?php
+session_start();
 // Conexión a la base de datos
 include('conexion-bd.php');
 
-// Obtener los productos de la base de datos
+// Verificar si es admin
+$es_admin = isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin';
+
+// Obtener categoría seleccionada
+$categoria_id = isset($_GET['categoria_id']) ? $_GET['categoria_id'] : null;
+
+// Modificar la consulta para filtrar por categoría si se seleccionó una
 $query = "SELECT * FROM productos";
+if ($categoria_id) {
+    $query .= " WHERE categoria_id = " . intval($categoria_id);
+}
 $resultado = mysqli_query($conexion, $query);
 
 // Obtener las categorías para mostrarlas en el menú de navegación
@@ -37,18 +47,11 @@ if (mysqli_num_rows($resultado) == 0) {
                         <?php echo $categoria['nombre']; ?>
                     </a>
                 <?php endwhile; ?>
-                <a href="#"><i class="fas fa-home"></i> Inicio</a>
-                <a href="#"><i class="fas fa-user"></i> Iniciar Sesión</a>
-                <a href="#"><i class="fas fa-user-plus"></i> Registrarse</a>
-                <a href="/backend/php/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
+                <a href="carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
             </nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar">
-            </div>
         </header>
 
-        <main>
-            <h2>Productos</h2>
+            <h2 style="text-align: center;">Productos</h2>
             <div class="products-grid">
                 <?php while ($producto = mysqli_fetch_assoc($resultado)) : ?>
                     <div class="product-card active">
@@ -59,11 +62,20 @@ if (mysqli_num_rows($resultado) == 0) {
                             <img src="../../frontend/public/img/default.jpg" alt="Imagen no disponible">
                         <?php endif; ?>
                         <h3><?php echo $producto['nombre']; ?></h3>
-                        <p>Precio: $ <?php echo number_format($producto['precio'], 2, ',', '.'); ?></p>
-                        <a href="carrito.php?action=add&id=<?php echo $producto['id']; ?>">
-                            <button>Agregar al carrito</button>
-                        </a>
-                        <a href="#">Detalles...</a>
+                        <p class="descripcion"><?php echo $producto['descripcion']; ?></p>
+                        <p class="precio">$ <?php echo number_format($producto['precio'], 2, ',', '.'); ?></p>
+                        <div class="product-actions">
+                            <a href="carrito.php?action=add&id=<?php echo $producto['id']; ?>" class="btn-agregar" style="text-decoration: none; color: white; background-color: #28a745; padding: 10px 20px; border-radius: 5px;">
+                                Agregar al carrito
+                            </a>
+                            <?php if($es_admin): ?>
+                                <br><br><br><a href="eliminar_producto.php?id=<?php echo $producto['id']; ?>" 
+                                   class="btn-eliminar"
+                                   onclick="return confirm('¿Está seguro de eliminar este producto?')" style="text-decoration: none; color: white; background-color: #dc3545; padding: 10px 20px; border-radius: 5px;">
+                                    Eliminar Producto
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 <?php endwhile; ?>
             </div>

@@ -25,10 +25,24 @@ header {
     margin-bottom: 20px;
 }
 
+nav {
+    background-color: #059B9A;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
 nav a {
-    color: #fff;
+    color: white;
     text-decoration: none;
-    margin-right: 20px;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #047978;
 }
 
 nav a i {
@@ -48,23 +62,50 @@ main {
 }
 
 .products-grid {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 .product-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    width: 250px;
-    margin: 10px;
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .product-card.active {
     border: 2px solid purple;
+}
+
+.product-card img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    color: #333;
+    margin: 10px 0;
+}
+
+.product-card .descripcion {
+    color: #666;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.product-card .precio {
+    font-size: 1.2em;
+    color: #059B9A;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
 .product-image {
@@ -105,4 +146,40 @@ main {
 
 .product-info a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-agregar {
+    background-color: #059B9A;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-agregar:hover {
+    background-color: #047978;
+}
+
+.btn-eliminar {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+}
+
+.product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
 }

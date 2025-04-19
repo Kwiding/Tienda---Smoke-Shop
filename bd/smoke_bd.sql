@@ -24,12 +24,6 @@ CREATE TABLE `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'Manga corta'),
-(2, 'Tirantes'),
-(3, 'Manga larga'),
-(4, 'Sudaderas');
-
 -- -------------------------------
 -- Tabla: productos
 -- -------------------------------
