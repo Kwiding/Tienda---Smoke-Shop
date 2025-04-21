@@ -10,6 +10,7 @@ $resultado_categorias = $conexion->query($query_categorias);
             <a href="../../../frontend/public/html/gestion-pedidos.php"><i class="fas fa-clipboard-list"></i> Gestionar Pedidos</a>
             <a href="../../../frontend/public/html/crear-categoria.php"><i class="fas fa-tags"></i> Crear Categoría</a>
             <a href="../../../frontend/public/html/gestinar-producto.php"><i class="fas fa-box"></i> Gestionar Productos</a>
+            <a href="../../../backend/php/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
         <?php else: ?>
             <select onchange="window.location.href=this.value" class="category-select">
                 <option value="../../../frontend/public/html/productos.php">Todas las categorías</option>

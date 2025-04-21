@@ -115,7 +115,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
             <div class="cart-actions">
                 <a href="#" onclick="vaciarCarrito(); return false;" class="empty-cart">Vaciar Carrito</a>
                 <div class="total-price">Precio Total: $ <?php echo number_format($total, 2, ',', '.'); ?></div>
-                <button class="checkout">Hacer Pedido</button>
+                <button class="checkout" onclick="window.location.href='../../frontend/public/html/form-pedidos.html'">Hacer Pedido</button>
             </div>
         </main>
     </div>
