@@ -64,22 +64,13 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
 </head>
 <body>
 
-<a href="productos.php"><button class="checkout">Volver al inicio</button></a>
-
-
-
     <div class="container">
         <header>
             <nav>
-                <a href="#"><i class="fas fa-shopping-cart"></i> Carrito de compras</a>
+                <a href="../../frontend/public/html/productos.php"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
                 <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
             </nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar">
-            </div>
         </header>
-
-        
 
         <main>
             <h2>Carrito de Compras</h2>
@@ -93,7 +84,9 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                                 <p>Cantidad: <?php echo $producto['cantidad']; ?></p>
                                 <a href="carrito.php?action=remove&id=<?php echo $id_producto; ?>" class="remove-item">Eliminar</a>
                             </div>
-                            <img src="/frontend/public/img/<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre']; ?>">
+                            <img src="../../frontend/public/img/<?php echo $producto['imagen']; ?>" 
+                                 alt="<?php echo $producto['nombre']; ?>"
+                                 style="width: 300px; height: 300px; object-fit: cover;">
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

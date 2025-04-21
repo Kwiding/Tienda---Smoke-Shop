@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once '../../../backend/php/conexion-bd.php';
+
+// Obtener productos con sus categorías
+$query = "SELECT p.*, c.nombre as categoria_nombre 
+          FROM productos p 
+          LEFT JOIN categorias c ON p.categoria_id = c.id";
+$resultado = mysqli_query($conexion, $query);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,13 +23,19 @@
 
 <body>
     <div class="container">
-        <!-- Navbar -->
-        <?php include __DIR__ . '../../../../backend/php/includes/navbar.php'; ?>
+        <header>
+            <?php include __DIR__ . '../../../../backend/php/includes/navbar.php'; ?>
+        </header>
 
         <main class="management-page">
             <div class="management-header">
                 <i class="fas fa-box-open"></i>
                 <h2>Gestionar Productos</h2>
+            </div>
+            <div class="button-container">
+                <button onclick="window.history.back()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
             </div>
             <div class="products-table">
                 <table>
@@ -34,28 +50,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php while($producto = mysqli_fetch_assoc($resultado)): ?>
                         <tr>
-                            <td>1</td>
-                            <td>Gotas Cannabicas 3000mg</td>
-                            <td>CBD</td>
-                            <td>$22.540</td>
-                            <td>25</td>
+                            <td><?php echo $producto['id']; ?></td>
+                            <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                            <td><?php echo htmlspecialchars($producto['categoria_nombre']); ?></td>
+                            <td>$<?php echo number_format($producto['precio'], 2, ',', '.'); ?></td>
+                            <td><?php echo $producto['stock']; ?></td>
                             <td class="actions">
-                                <button class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
-                                <button class="delete-btn"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                <button class="edit-btn" onclick="location.href='editar_producto.php?id=<?php echo $producto['id']; ?>'">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="delete-btn" onclick="if(confirm('¿Está seguro de eliminar este producto?')) location.href='../../../backend/php/eliminar_producto.php?id=<?php echo $producto['id']; ?>'">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Aceite de Coco Orgánico</td>
-                            <td>Aceites</td>
-                            <td>$15.990</td>
-                            <td>50</td>
-                            <td class="actions">
-                                <button class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
-                                <button class="delete-btn"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                            </td>
-                        </tr>
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
             </div>

@@ -33,25 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <header>
-            <nav>
-                <!-- Aquí el menú de categorías se carga dinámicamente desde la base de datos -->
-                <?php
-                // Consultar categorías desde la base de datos
-                $query = "SELECT * FROM categorias";
-                $result = mysqli_query($conexion, $query);
-
-                while ($categoria = mysqli_fetch_assoc($result)) {
-                    echo '<a href="productos.php?categoria_id=' . $categoria['id'] . '">' . $categoria['nombre'] . '</a>';
-                }
-                ?>
-                <a href="#"><i class="fas fa-home"></i> Inicio</a>
-                <a href="#"><i class="fas fa-user"></i> Iniciar Sesión</a>
-                <a href="#"><i class="fas fa-user-plus"></i> Registrarse</a>
-                <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
-            </nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar">
-            </div>
+            <?php include __DIR__ . '../../../../backend/php/includes/navbar.php'; ?>
         </header>
 
         <main>
@@ -69,7 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="categoryName">Nombre de la nueva categoría</label>
                             <input type="text" id="categoryName" name="nombre" placeholder="Nombre de la nueva categoría" required>
                         </div>
-                        <button type="submit">Crear categoría</button>
+                        <div class="button-group">
+                            <button type="submit">Crear categoría</button>
+                            <button type="button" onclick="window.history.back()">Volver</button>
+                        </div>
                     </form>
                 </div>
                 <div class="category-image">

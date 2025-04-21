@@ -47,6 +47,8 @@ main {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-details {
@@ -58,11 +60,14 @@ main {
 .product-image img {
     max-width: 500px;
     border-radius: 5px;
-    margin-right: 20px; /* Separación de la imagen de la descripción */
+    margin-right: 20px;
 }
 
 .product-info {
     text-align: left;
+}
+.product-info h3{
+    text-align: center;
 }
 
 .product-buttons button {
@@ -88,4 +93,58 @@ main {
     margin-top: 20px;
     color: #fff;
     text-decoration: none;
+}
+
+/* Corrección: cartas en fila horizontal con scroll */
+.product-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 90px;
+}
+
+.product-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.product-grid::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+}
+
+.product-card {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+    flex: 0 0 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card h4 {
+    margin: 1rem 0 0.5rem;
+    color: #fff; /* Texto blanco */
+    font-size: 1.2rem;
+}
+
+.rating {
+    margin-bottom: 1rem;
+    color: #ffc107; /* Mantiene el color dorado para las estrellas */
+    font-size: 1rem;
 }
