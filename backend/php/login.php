@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../../frontend/public/html/gestinar-producto.php");
             exit();
         } else {
-            header("Location: productos.php");
+            header("Location: ../../frontend/public/html/home.php");
             exit();
         }
     } else {

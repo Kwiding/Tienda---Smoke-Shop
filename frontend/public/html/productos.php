@@ -29,8 +29,22 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
     <link rel="stylesheet" href="../css/style.productos.css">
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
+    <div class="notification" id="notification">Producto agregado al carrito</div>
     <div class="container">
         <?php include __DIR__ . '/../../../backend/php/includes/navbar.php'; ?>
 
@@ -48,7 +62,8 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
                     <p class="descripcion"><?php echo $producto['descripcion']; ?></p>
                     <p class="precio">$ <?php echo number_format($producto['precio'], 2, ',', '.'); ?></p>
                     <div class="product-actions">
-                        <a href="../../../backend/php/carrito.php?action=add&id=<?php echo $producto['id']; ?>" class="btn-agregar" style="text-decoration: none; color: white; background-color: #28a745; padding: 10px 20px; border-radius: 5px;">
+                        <a href="#" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>); return false;" 
+                           class="btn-agregar" style="text-decoration: none; color: white; background-color: #28a745; padding: 10px 20px; border-radius: 5px;">
                             Agregar al carrito
                         </a>
                         <?php if($es_admin): ?>
@@ -74,5 +89,20 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
     </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+    function agregarAlCarrito(id) {
+        fetch(`../../../backend/php/carrito.php?action=add&id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    const notification = document.getElementById('notification');
+                    notification.style.display = 'block';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                }
+            });
+    }
+    </script>
 </body>
 </html>

@@ -1,59 +1,77 @@
 <?php
 session_start();
-include('conexion-bd.php');
+require_once 'conexion.php';
 
-// Verifica si el carrito está inicializado, si no, lo inicializa
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = [];
-}
+// Manejo de acciones AJAX
+if (isset($_GET['action'])) {
+    header('Content-Type: application/json');
+    
+    switch($_GET['action']) {
+        case 'add':
+            $id_producto = $_GET['id'];
+            $cantidad = 1;
 
-// Añadir un producto al carrito
-if (isset($_GET['action']) && $_GET['action'] == 'add') {
-    $id_producto = $_GET['id'];
-    $cantidad = 1; // Asumimos que se agrega una unidad por vez
+            if (!isset($_SESSION['carrito'])) {
+                $_SESSION['carrito'] = [];
+            }
 
-    // Verificar si el producto ya está en el carrito
-    if (isset($_SESSION['carrito'][$id_producto])) {
-        $_SESSION['carrito'][$id_producto]['cantidad'] += $cantidad;
-    } else {
-        // Si no está en el carrito, obtener detalles del producto de la base de datos
-        $query = "SELECT * FROM productos WHERE id = $id_producto";
-        $resultado = mysqli_query($conexion, $query);
+            if (isset($_SESSION['carrito'][$id_producto])) {
+                $_SESSION['carrito'][$id_producto]['cantidad'] += $cantidad;
+            } else {
+                $query = "SELECT * FROM productos WHERE id = $id_producto";
+                $resultado = mysqli_query($conexion, $query);
 
-        if ($row = mysqli_fetch_assoc($resultado)) {
-            $_SESSION['carrito'][$id_producto] = array(
-                'id' => $row['id'],
-                'nombre' => $row['nombre'],
-                'precio' => $row['precio'],
-                'cantidad' => $cantidad,
-                'imagen' => $row['imagen'] // Asegúrate de que la columna 'imagen' exista en la tabla 'productos'
-            );
-        } else {
-            echo "Producto no encontrado en la base de datos.";
-        }
+                if ($row = mysqli_fetch_assoc($resultado)) {
+                    $_SESSION['carrito'][$id_producto] = array(
+                        'id' => $row['id'],
+                        'nombre' => $row['nombre'],
+                        'precio' => $row['precio'],
+                        'cantidad' => $cantidad,
+                        'imagen' => $row['imagen']
+                    );
+                }
+            }
+            
+            echo json_encode(['success' => true]);
+            exit;
+            
+        case 'empty':
+            unset($_SESSION['carrito']);
+            echo json_encode(['success' => true]);
+            exit;
+            
+        case 'remove':
+            $id_producto = $_GET['id'];
+            unset($_SESSION['carrito'][$id_producto]);
+            echo json_encode(['success' => true]);
+            exit;
+            
+        case 'get_total':
+            $total = 0;
+            if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+                foreach ($_SESSION['carrito'] as $producto) {
+                    $total += $producto['precio'] * $producto['cantidad'];
+                }
+            }
+            echo json_encode([
+                'success' => true, 
+                'total' => $total, 
+                'carrito' => $_SESSION['carrito'] ?? []
+            ]);
+            exit;
     }
 }
 
-// Vaciar carrito
-if (isset($_GET['action']) && $_GET['action'] == 'empty') {
-    unset($_SESSION['carrito']);
-}
-
-// Eliminar un producto
-if (isset($_GET['action']) && $_GET['action'] == 'remove') {
-    $id_producto = $_GET['id'];
-    unset($_SESSION['carrito'][$id_producto]);
-}
-
-// Calcular total
+// Si no es una petición AJAX, mostrar la vista del carrito
 $total = 0;
 if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
     foreach ($_SESSION['carrito'] as $producto) {
         $total += $producto['precio'] * $producto['cantidad'];
     }
 }
-?>
 
+// Vista del carrito
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -95,7 +113,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
             </div>
 
             <div class="cart-actions">
-                <a href="carrito.php?action=empty" class="empty-cart">Vaciar Carrito</a>
+                <a href="#" onclick="vaciarCarrito(); return false;" class="empty-cart">Vaciar Carrito</a>
                 <div class="total-price">Precio Total: $ <?php echo number_format($total, 2, ',', '.'); ?></div>
                 <button class="checkout">Hacer Pedido</button>
             </div>
@@ -103,5 +121,18 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
     </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+    function vaciarCarrito() {
+        if(confirm('¿Está seguro de vaciar el carrito?')) {
+            fetch('carrito.php?action=empty')
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        location.reload();
+                    }
+                });
+        }
+    }
+    </script>
 </body>
 </html>

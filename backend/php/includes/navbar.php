@@ -12,16 +12,18 @@ $resultado_categorias = $conexion->query($query_categorias);
             <a href="../../../frontend/public/html/gestinar-producto.php"><i class="fas fa-box"></i> Gestionar Productos</a>
         <?php else: ?>
             <select onchange="window.location.href=this.value" class="category-select">
-                <option value="">Seleccionar Categoría</option>
+                <option value="../../../frontend/public/html/productos.php">Todas las categorías</option>
                 <?php while($categoria = $resultado_categorias->fetch_assoc()): ?>
-                    <option value="/backend/php/productos.php?categoria_id=<?php echo $categoria['id']; ?>">
+                    <option value="../../../frontend/public/html/productos.php?categoria_id=<?php echo $categoria['id']; ?>"
+                            <?php echo (isset($_GET['categoria_id']) && $_GET['categoria_id'] == $categoria['id']) ? 'selected' : ''; ?>>
                         <?php echo $categoria['nombre']; ?>
                     </option>
                 <?php endwhile; ?>
             </select>
+            <a href="../../../backend/php/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
         <?php endif; ?>
         <a href="../../../frontend/public/html/productos.php"><i class="fas fa-store"></i> Productos</a>
-        <a href="/backend/php/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+        <a href="../../../frontend/public/html/login.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
     <?php else: ?>
         <a href="/frontend/public/html/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
     <?php endif; ?>

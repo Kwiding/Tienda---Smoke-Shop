@@ -13,6 +13,6 @@ if (isset($_COOKIE[session_name()])) {
 session_destroy();
 
 // Redireccionar al login
-header("Location: ../../frontend/public/html/login.html");
+header("Location: ../../../../frontend/public/html/login.html");
 exit();
 ?>
