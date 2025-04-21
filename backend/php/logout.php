@@ -12,7 +12,7 @@ if (isset($_COOKIE[session_name()])) {
 // Destruir la sesión
 session_destroy();
 
-// Redireccionar al login
-header("Location: ../../../../frontend/public/html/login.html");
+// Redireccionar al home
+header("Location: ../../frontend/public/html/home.php");
 exit();
 ?>

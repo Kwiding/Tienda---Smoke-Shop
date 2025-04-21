@@ -23,9 +23,9 @@ $resultado_categorias = $conexion->query($query_categorias);
             <a href="../../../backend/php/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
         <?php endif; ?>
         <a href="../../../frontend/public/html/productos.php"><i class="fas fa-store"></i> Productos</a>
-        <a href="../../../frontend/public/html/login.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+        <a href="../../../backend/php/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
     <?php else: ?>
-        <a href="/frontend/public/html/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
+        <a href="../../../frontend/public/html/login.html" style="margin-left: auto;"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
     <?php endif; ?>
 </nav>
 
