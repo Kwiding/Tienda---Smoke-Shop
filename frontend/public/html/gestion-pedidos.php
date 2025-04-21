@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Verificar si es admin
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    header('Location: productos.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,14 +19,16 @@
 </head>
 <body>
     <div class="container">
-    <?php include __DIR__ . '../../../../backend/php/includes/navbar.php'; ?>
+        <header>
+            <?php include __DIR__ . '../../../../backend/php/includes/navbar.php'; ?>
+        </header>
         <main class="management-page">
             <div class="management-header">
                 <i class="fas fa-file-alt"></i>
                 <h2>Gestionar Pedidos</h2>
             </div>
             <div class="table-container">
-                <table>
+                <table class="table-content">
                     <thead>
                         <tr>
                             <th>ID</th>
