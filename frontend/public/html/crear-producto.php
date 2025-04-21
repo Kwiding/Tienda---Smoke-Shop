@@ -1,4 +1,10 @@
 <?php
+session_start();
+// Verificar si es admin
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    header('Location: productos.php');
+    exit();
+}
 include('../../../backend/php/conexion-bd.php');
 $query_categorias = "SELECT * FROM categorias";
 $resultado_categorias = mysqli_query($conexion, $query_categorias);
@@ -8,7 +14,7 @@ $resultado_categorias = mysqli_query($conexion, $query_categorias);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Crear Producto</title>
     <link rel="stylesheet" href="../css/style2.css">
 </head>
 <body>
@@ -35,10 +41,41 @@ $resultado_categorias = mysqli_query($conexion, $query_categorias);
             <input type="number" id="precio" name="precio" step="0.01" required>
 
             <label for="imagen">Imagen</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" >
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
             
-            <button type="submit">Crear producto</button>
+            <div class="button-group">
+                <button type="submit" onclick="return validarFormulario()">Crear producto</button>
+                <button type="button" onclick="window.location.href='gestinar-producto.php'">Cancelar</button>
+            </div>
         </form>
     </div>
+
+    <script>
+    function validarFormulario() {
+        const nombre = document.getElementById('nombre').value;
+        const categoria = document.getElementById('categoria').value;
+        const stock = document.getElementById('stock').value;
+        const precio = document.getElementById('precio').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const imagen = document.getElementById('imagen').files[0];
+
+        if (!nombre || !categoria || !stock || !precio || !descripcion) {
+            alert('Por favor complete todos los campos obligatorios');
+            return false;
+        }
+
+        if (stock < 0 || precio < 0) {
+            alert('El stock y precio deben ser valores positivos');
+            return false;
+        }
+
+        if (!imagen) {
+            alert('Por favor seleccione una imagen');
+            return false;
+        }
+
+        return true;
+    }
+    </script>
 </body>
 </html>

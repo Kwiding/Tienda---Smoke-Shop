@@ -1,10 +1,11 @@
 <?php
 session_start();
 include('conexion-bd.php');
+header('Content-Type: application/json');
 
 // Verificar si es admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    header('Location: productos.php');
+    echo json_encode(['success' => false, 'error' => 'No autorizado']);
     exit();
 }
 
@@ -32,10 +33,12 @@ if (isset($_GET['id'])) {
                 unlink($ruta_imagen);
             }
         }
-        header('Location: productos.php');
+        echo json_encode(['success' => true]);
     } else {
-        echo "Error al eliminar el producto";
+        echo json_encode(['success' => false, 'error' => 'Error al eliminar el producto']);
     }
     $stmt->close();
+} else {
+    echo json_encode(['success' => false, 'error' => 'ID no proporcionado']);
 }
 $conexion->close();

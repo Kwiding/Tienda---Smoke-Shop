@@ -100,7 +100,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                                 <h3><?php echo $producto['nombre']; ?></h3>
                                 <p>$ <?php echo number_format($producto['precio'], 2, ',', '.'); ?></p>
                                 <p>Cantidad: <?php echo $producto['cantidad']; ?></p>
-                                <a href="carrito.php?action=remove&id=<?php echo $id_producto; ?>" class="remove-item">Eliminar</a>
+                                <a href="#" onclick="eliminarProducto(<?php echo $id_producto; ?>); return false;" class="remove-item">Eliminar</a>
                             </div>
                             <img src="../../frontend/public/img/<?php echo $producto['imagen']; ?>" 
                                  alt="<?php echo $producto['nombre']; ?>"
@@ -114,7 +114,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
 
             <div class="cart-actions">
                 <a href="#" onclick="vaciarCarrito(); return false;" class="empty-cart">Vaciar Carrito</a>
-                <div class="total-price">Precio Total: $ <?php echo number_format($total, 2, ',', '.'); ?></div>
+                <div class="total-price">Precio Total: $ <span id="total-precio"><?php echo number_format($total, 2, ',', '.'); ?></span></div>
                 <button class="checkout" onclick="window.location.href='../../frontend/public/html/form-pedidos.html'">Hacer Pedido</button>
             </div>
         </main>
@@ -129,6 +129,35 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                 .then(data => {
                     if(data.success) {
                         location.reload();
+                    }
+                });
+        }
+    }
+
+    function eliminarProducto(id) {
+        if(confirm('¿Está seguro de eliminar este producto?')) {
+            fetch(`carrito.php?action=remove&id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        // Eliminar el elemento del DOM
+                        const item = document.querySelector(`[onclick="eliminarProducto(${id})"]`).closest('.cart-item');
+                        item.remove();
+
+                        // Actualizar el precio total
+                        fetch('carrito.php?action=get_total')
+                            .then(response => response.json())
+                            .then(data => {
+                                if(data.success) {
+                                    document.getElementById('total-precio').textContent = 
+                                        new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2 }).format(data.total);
+                                    
+                                    // Si no quedan productos, mostrar mensaje
+                                    if(Object.keys(data.carrito).length === 0) {
+                                        document.querySelector('.cart-items').innerHTML = '<p>No hay productos en el carrito.</p>';
+                                    }
+                                }
+                            });
                     }
                 });
         }

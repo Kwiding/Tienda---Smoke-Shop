@@ -51,7 +51,7 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
         <h2 style="text-align: center;">Productos</h2>
         <div class="products-grid">
             <?php while ($producto = mysqli_fetch_assoc($resultado)) : ?>
-                <div class="product-card active">
+                <div class="product-card active" id="producto-<?php echo $producto['id']; ?>">
                     <!-- Verifica si 'imagen' no está vacía antes de mostrarla -->
                     <?php if (!empty($producto['imagen'])): ?>
                         <img src="../img/<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre']; ?>">
@@ -67,9 +67,9 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
                             Agregar al carrito
                         </a>
                         <?php if($es_admin): ?>
-                            <a href="../../../backend/php/eliminar_producto.php?id=<?php echo $producto['id']; ?>" 
-                               class="btn-eliminar"
-                               onclick="return confirm('¿Está seguro de eliminar este producto?')" style="text-decoration: none; color: white; background-color: #dc3545; padding: 10px 20px; border-radius: 5px;">
+                            <a href="#" 
+                               onclick="eliminarProducto(<?php echo $producto['id']; ?>); return false;"
+                               class="btn-eliminar" style="text-decoration: none; color: white; background-color: #dc3545; padding: 10px 20px; border-radius: 5px;">
                                 Eliminar Producto
                             </a>
                         <?php endif; ?>
@@ -83,7 +83,7 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
             <?php if (mysqli_num_rows($resultado) == 0): ?>
                 <p>No hay productos disponibles</p>
             <?php else: ?>
-                <p>Productos encontrados: <?php echo mysqli_num_rows($resultado); ?></p>
+                <p>Productos encontrados: <span id="contador-productos"><?php echo mysqli_num_rows($resultado); ?></span></p>
             <?php endif; ?>
         </div>
     </div>
@@ -102,6 +102,32 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
                     }, 3000);
                 }
             });
+    }
+
+    function eliminarProducto(id) {
+        if(confirm('¿Está seguro de eliminar este producto?')) {
+            fetch(`../../../backend/php/eliminar_producto.php?id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Eliminar la tarjeta del producto
+                    document.getElementById(`producto-${id}`).remove();
+                    
+                    // Actualizar contador
+                    const contador = document.getElementById('contador-productos');
+                    contador.textContent = parseInt(contador.textContent) - 1;
+                    
+                    // Mostrar notificación
+                    const notification = document.getElementById('notification');
+                    notification.textContent = "Producto eliminado correctamente";
+                    notification.style.backgroundColor = "#dc3545";
+                    notification.style.display = 'block';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                }
+            });
+        }
     }
     </script>
 </body>

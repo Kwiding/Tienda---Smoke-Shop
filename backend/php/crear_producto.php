@@ -1,5 +1,12 @@
 <?php
+session_start();
 include('conexion-bd.php');
+
+// Verificar si es admin
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    header('Location: ../../frontend/public/html/productos.php');
+    exit();
+}
 
 // Función para redimensionar imagen
 function redimensionar_imagen($ruta_temporal, $ruta_destino) {
@@ -76,21 +83,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado = redimensionar_imagen($imagen_temporal, $ruta_destino);
         if($resultado) {
             // Continuar con la inserción en la base de datos
-            $sql = "INSERT INTO productos (categoria_id, nombre, descripcion, precio, stock, imagen) 
-                    VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO productos (categoria_id, nombre, descripcion, precio, stock, imagen, fecha) 
+                    VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
             
             $stmt = $conexion->prepare($sql);
             $stmt->bind_param("issdis", $categoria_id, $nombre, $descripcion, $precio, $stock, $imagen_nombre);
             
             if ($stmt->execute()) {
-                header("Location: productos.php");
+                echo "<script>
+                    alert('Producto creado exitosamente');
+                    window.location.href = '../../frontend/public/html/gestinar-producto.php';
+                </script>";
                 exit();
             } else {
-                echo "Error al crear el producto: " . $stmt->error;
+                echo "<script>
+                    alert('Error al crear el producto: " . $stmt->error . "');
+                    window.history.back();
+                </script>";
             }
             $stmt->close();
         } else {
-            echo "Error al procesar la imagen";
+            echo "<script>
+                alert('Error al procesar la imagen');
+                window.history.back();
+            </script>";
         }
     }
 }
