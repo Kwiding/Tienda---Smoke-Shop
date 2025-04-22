@@ -205,9 +205,9 @@ main {
 .category-select {
     padding: 8px 15px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     margin-right: 15px;
     cursor: pointer;
     font-family: inherit;
@@ -216,12 +216,12 @@ main {
 }
 
 .category-select option {
-    background-color: #059B9A;
-    color: white;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 .category-select:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #f5f5f5;
 }
 
 .product-counter {

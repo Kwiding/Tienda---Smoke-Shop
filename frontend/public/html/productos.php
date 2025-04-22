@@ -24,6 +24,7 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,8 +42,22 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
             display: none;
             z-index: 1000;
         }
+
+        .category-select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            margin-right: 15px;
+            cursor: pointer;
+            font-family: inherit;
+            min-width: 200px;
+            margin: 0 15px;
+        }
     </style>
 </head>
+
 <body>
     <div class="notification" id="notification">Producto agregado al carrito</div>
     <div class="container">
@@ -62,14 +77,14 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
                     <p class="descripcion"><?php echo $producto['descripcion']; ?></p>
                     <p class="precio">$ <?php echo number_format($producto['precio'], 2, ',', '.'); ?></p>
                     <div class="product-actions">
-                        <a href="#" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>); return false;" 
-                           class="btn-agregar" style="text-decoration: none; color: white; background-color: #28a745; padding: 10px 20px; border-radius: 5px;">
+                        <a href="#" onclick="agregarAlCarrito(<?php echo $producto['id']; ?>); return false;"
+                            class="btn-agregar" style="text-decoration: none; color: white; background-color: #28a745; padding: 10px 20px; border-radius: 5px;">
                             Agregar al carrito
                         </a>
-                        <?php if($es_admin): ?>
-                            <a href="#" 
-                               onclick="eliminarProducto(<?php echo $producto['id']; ?>); return false;"
-                               class="btn-eliminar" style="text-decoration: none; color: white; background-color: #dc3545; padding: 10px 20px; border-radius: 5px;">
+                        <?php if ($es_admin): ?>
+                            <a href="#"
+                                onclick="eliminarProducto(<?php echo $producto['id']; ?>); return false;"
+                                class="btn-eliminar" style="text-decoration: none; color: white; background-color: #dc3545; padding: 10px 20px; border-radius: 5px;">
                                 Eliminar Producto
                             </a>
                         <?php endif; ?>
@@ -77,7 +92,7 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
                 </div>
             <?php endwhile; ?>
         </div>
-        
+
         <!-- Agregar el contador de productos aquí -->
         <div class="product-counter">
             <?php if (mysqli_num_rows($resultado) == 0): ?>
@@ -90,45 +105,46 @@ $categorias_result = mysqli_query($conexion, $categorias_query);
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script>
-    function agregarAlCarrito(id) {
-        fetch(`../../../backend/php/carrito.php?action=add&id=${id}`)
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    const notification = document.getElementById('notification');
-                    notification.style.display = 'block';
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 3000);
-                }
-            });
-    }
-
-    function eliminarProducto(id) {
-        if(confirm('¿Está seguro de eliminar este producto?')) {
-            fetch(`../../../backend/php/eliminar_producto.php?id=${id}`)
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    // Eliminar la tarjeta del producto
-                    document.getElementById(`producto-${id}`).remove();
-                    
-                    // Actualizar contador
-                    const contador = document.getElementById('contador-productos');
-                    contador.textContent = parseInt(contador.textContent) - 1;
-                    
-                    // Mostrar notificación
-                    const notification = document.getElementById('notification');
-                    notification.textContent = "Producto eliminado correctamente";
-                    notification.style.backgroundColor = "#dc3545";
-                    notification.style.display = 'block';
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 3000);
-                }
-            });
+        function agregarAlCarrito(id) {
+            fetch(`../../../backend/php/carrito.php?action=add&id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const notification = document.getElementById('notification');
+                        notification.style.display = 'block';
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 3000);
+                    }
+                });
         }
-    }
+
+        function eliminarProducto(id) {
+            if (confirm('¿Está seguro de eliminar este producto?')) {
+                fetch(`../../../backend/php/eliminar_producto.php?id=${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Eliminar la tarjeta del producto
+                            document.getElementById(`producto-${id}`).remove();
+
+                            // Actualizar contador
+                            const contador = document.getElementById('contador-productos');
+                            contador.textContent = parseInt(contador.textContent) - 1;
+
+                            // Mostrar notificación
+                            const notification = document.getElementById('notification');
+                            notification.textContent = "Producto eliminado correctamente";
+                            notification.style.backgroundColor = "#dc3545";
+                            notification.style.display = 'block';
+                            setTimeout(() => {
+                                notification.style.display = 'none';
+                            }, 3000);
+                        }
+                    });
+            }
+        }
     </script>
 </body>
+
 </html>
