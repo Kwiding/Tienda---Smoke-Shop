@@ -23,6 +23,7 @@ $resultado_categorias = $conexion->query($query_categorias);
             </select>
             <a href="../../../backend/php/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
         <?php endif; ?>
+        
         <a href="../../../frontend/public/html/productos.php"><i class="fas fa-store"></i> Productos</a>
         <div class="user-profile" style="margin-left: 0;">
             <a href="../../../frontend/public/html/perfil.php">
