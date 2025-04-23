@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,11 +11,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contacto = $_POST['contacto'];
     $metodo_pago = $_POST['metodo_pago'];
     
-    $sql = "INSERT INTO pedidos (nombre_cliente, apellido_cliente, departamento, ciudad, direccion, contacto, metodo_pago, estado, fecha, hora) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'Pendiente', CURDATE(), CURTIME())";
+    // Obtener el ID del usuario si está logueado
+    $usuario_id = isset($_SESSION['id']) ? $_SESSION['id'] : null;
+    
+    $sql = "INSERT INTO pedidos (usuario_id, nombre_cliente, apellido_cliente, departamento, ciudad, direccion, contacto, metodo_pago, estado, fecha, hora) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pendiente', CURDATE(), CURTIME())";
     
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("sssssss", $nombre, $apellido, $departamento, $ciudad, $direccion, $contacto, $metodo_pago);
+    $stmt->bind_param("isssssss", $usuario_id, $nombre, $apellido, $departamento, $ciudad, $direccion, $contacto, $metodo_pago);
     
     if ($stmt->execute()) {
         header("Location: ../../frontend/public/html/gestion-pedidos.php?success=1");

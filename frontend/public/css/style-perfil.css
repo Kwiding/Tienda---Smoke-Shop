@@ -68,3 +68,21 @@
     display: inline-block;
     margin-top: 20px;
 }
+
+
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .profile-sections {
+        gap: 20px;
+    }
+
+    .purchase-history {
+        padding: 15px;
+    }
+}
