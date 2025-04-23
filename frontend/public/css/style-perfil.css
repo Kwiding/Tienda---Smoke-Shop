@@ -1,0 +1,70 @@
+.profile-container {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem;
+}
+
+.profile-card {
+    background: rgba(5, 155, 154, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex: 1;
+    max-width: 400px;
+}
+
+.profile-info {
+    padding: 20px;
+    color: #fff;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.profile-edit {
+    padding: 20px;
+}
+
+.profile-edit input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-btn, .save-btn {
+    background-color: #059B9A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn {
+    background-color: #8E407A;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+}
