@@ -125,3 +125,50 @@ button[type="button"] {
 button[type="button"]:hover {
     background-color: #5a6268;
 }
+
+.categories-list {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.categories-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.categories-list th,
+.categories-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.categories-list th {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+}
+
+.category-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.edit-btn,
+.delete-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+}
+
+.edit-btn:hover {
+    color: #4CAF50;
+}
+
+.delete-btn:hover {
+    color: #f44336;
+}

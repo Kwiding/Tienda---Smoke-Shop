@@ -20,6 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "El nombre de la categoría no puede estar vacío.";
     }
 }
+
+// Obtener todas las categorías
+$query_categorias = "SELECT * FROM categorias ORDER BY nombre";
+$categorias = mysqli_query($conexion, $query_categorias);
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +60,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="button" onclick="window.history.back()">Volver</button>
                         </div>
                     </form>
+
+                    <!-- Agregar lista de categorías existentes -->
+                    <div class="categories-list">
+                        <h3>Categorías Existentes</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($categoria = mysqli_fetch_assoc($categorias)): ?>
+                                <tr>
+                                    <td class="category-name" id="name-<?php echo $categoria['id']; ?>">
+                                        <?php echo htmlspecialchars($categoria['nombre']); ?>
+                                    </td>
+                                    <td class="category-actions">
+                                        <button onclick="editarCategoria(<?php echo $categoria['id']; ?>)" class="edit-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button onclick="eliminarCategoria(<?php echo $categoria['id']; ?>)" class="delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="category-image">
                     <img src="../img/mari2.avif" alt="Imagen de categoría">
@@ -65,5 +99,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script>
+    function editarCategoria(id) {
+        const nombreActual = document.getElementById(`name-${id}`).textContent.trim();
+        const nuevoNombre = prompt('Editar nombre de la categoría:', nombreActual);
+        
+        if (nuevoNombre && nuevoNombre !== nombreActual) {
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('nombre', nuevoNombre);
+
+            fetch('../../../backend/php/actualizar_categoria.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.error || 'Error al actualizar la categoría');
+                }
+            });
+        }
+    }
+
+    function eliminarCategoria(id) {
+        if (confirm('¿Está seguro de eliminar esta categoría?')) {
+            fetch(`../../../backend/php/eliminar_categoria.php?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.error || 'Error al eliminar la categoría');
+                    }
+                });
+        }
+    }
+    </script>
 </body>
 </html>
