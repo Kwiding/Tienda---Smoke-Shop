@@ -46,10 +46,20 @@
                             <option value="transferencia">Transferencia bancaria</option>
                         </select>
                     </div>
-                    <button type="submit" class="confirm-button">Confirmar Pedido</button>
+                    <button type="submit" class="confirm-button" onclick="return confirmarPedido()">Confirmar Pedido</button>
                 </form>
             </div>
         </main>
     </div>
+
+    <script>
+    function confirmarPedido() {
+        if(confirm('¿Está seguro de realizar el pedido?')) {
+            // El formulario se enviará y el carrito se vaciará en el backend
+            return true;
+        }
+        return false;
+    }
+    </script>
 </body>
 </html>

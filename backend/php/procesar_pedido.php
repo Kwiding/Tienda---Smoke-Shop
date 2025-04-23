@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("isssssss", $usuario_id, $nombre, $apellido, $departamento, $ciudad, $direccion, $contacto, $metodo_pago);
     
     if ($stmt->execute()) {
+        // Vaciar el carrito después de procesar el pedido exitosamente
+        unset($_SESSION['carrito']);
         header("Location: ../../frontend/public/html/gestion-pedidos.php?success=1");
         exit();
     } else {

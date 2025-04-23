@@ -35,7 +35,7 @@ $query = "INSERT INTO usuarios (nombre, apellidos, email, password, rol)
 $stmt = $conexion->prepare($query);
 
 if ($stmt) {
-    $stmt->bind_param("sssss", $nombre, $apellidos, $email, $password, $rol);
+    $stmt->bind_param("sssss", $nombre, $apellidos, $email, $passwordHash, $rol);
 
     if ($stmt->execute()) {
         echo "<script>
