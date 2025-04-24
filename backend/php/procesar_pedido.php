@@ -23,10 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         // Vaciar el carrito después de procesar el pedido exitosamente
         unset($_SESSION['carrito']);
-        header("Location: ../../frontend/public/html/gestion-pedidos.php?success=1");
+        header("Location: /Tienda---Smoke-Shop/frontend/public/html/productos.php");
         exit();
     } else {
-        header("Location: ../../frontend/public/html/form-pedidos.html?error=1");
+        header("Location: /Tienda---Smoke-Shop/frontend/public/html/form-pedidos.html?error=1");
         exit();
     }
     

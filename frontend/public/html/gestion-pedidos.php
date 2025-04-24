@@ -2,7 +2,7 @@
 session_start();
 // Verificar si es admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    header('Location: productos.php');
+    header('Location: ../../frontend/public/html/productos.php');
     exit();
 }
 ?>

@@ -15,23 +15,21 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 $usuario = $resultado->fetch_assoc();
 
-// Consulta ajustada para pedidos con nombre y precio histórico
+// Consulta con precios actuales desde productos
 $query_pedidos = "
   SELECT 
     p.id,
     p.fecha,
     p.hora,
     p.estado,
-    p.direccion,
-    p.ciudad,
-    GROUP_CONCAT(lp.nombre_producto ORDER BY lp.id ASC SEPARATOR '||')      AS productos,
-    GROUP_CONCAT(lp.precio_unitario ORDER BY lp.id ASC SEPARATOR '||')     AS precios,
-    GROUP_CONCAT(lp.unidades       ORDER BY lp.id ASC SEPARATOR '||')     AS cantidades,
-    GROUP_CONCAT(pr.imagen         ORDER BY lp.id ASC SEPARATOR '||')     AS imagenes,
-    COALESCE(SUM(lp.precio_unitario * lp.unidades), 0)                     AS total
+    GROUP_CONCAT(pr.nombre ORDER BY lp.id ASC SEPARATOR '||')            AS productos,
+    GROUP_CONCAT(pr.precio ORDER BY lp.id ASC SEPARATOR '||')            AS precios,
+    GROUP_CONCAT(lp.unidades ORDER BY lp.id ASC SEPARATOR '||')          AS cantidades,
+    GROUP_CONCAT(pr.imagen ORDER BY lp.id ASC SEPARATOR '||')            AS imagenes,
+    COALESCE(SUM(pr.precio * lp.unidades), 0)                            AS total
   FROM pedidos p
   LEFT JOIN lineas_pedidos lp ON p.id = lp.pedido_id
-  LEFT JOIN productos pr     ON lp.producto_id = pr.id
+  LEFT JOIN productos pr ON lp.producto_id = pr.id
   WHERE p.usuario_id = ?
   GROUP BY p.id
   ORDER BY p.fecha DESC, p.hora DESC
@@ -40,6 +38,7 @@ $stmt_pedidos = $conexion->prepare($query_pedidos);
 $stmt_pedidos->bind_param("i", $_SESSION['id']);
 $stmt_pedidos->execute();
 $resultado_pedidos = $stmt_pedidos->get_result();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -84,74 +83,41 @@ $resultado_pedidos = $stmt_pedidos->get_result();
             </form>
 
             <!-- Sección de Historial de Compras -->
-            <div class="purchase-history">
-                <h3><i class="fas fa-history"></i> Historial de Compras</h3>
-                <div class="history-list">
-                    <?php if($resultado_pedidos->num_rows > 0): ?>
-                    <table class="purchase-table">
-                        <thead>
-                            <tr>
-                                <th>Pedido #</th>
-                                <th>Fecha / Hora</th>
-                                <th>Productos</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Dirección</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php while($pedido = $resultado_pedidos->fetch_assoc()): ?>
-                            <tr>
-                                <td class="order-id">#<?php echo $pedido['id']; ?></td>
-                                <td><?php echo $pedido['fecha'].'<br>'.$pedido['hora']; ?></td>
-                                <td class="products-cell">
-                                    <?php
-                                    $productos  = explode('||', $pedido['productos']);
-                                    $imagenes   = explode('||', $pedido['imagenes']);
-                                    $cantidades = explode('||', $pedido['cantidades']);
-                                    $precios    = explode('||', $pedido['precios']);
-                                    $total_calc = 0;
-
-                                    foreach($productos as $i => $nombre) {
-                                        if ($nombre === '' || !isset($precios[$i]) || !isset($cantidades[$i])) continue;
-                                        $unit = floatval($precios[$i]);
-                                        $qty  = intval($cantidades[$i]);
-                                        $sub  = $unit * $qty;
-                                        $total_calc += $sub;
-                                        echo '<div class="product-row">';
-                                          if (!empty($imagenes[$i])) {
-                                            echo '<img src="../img/'. htmlspecialchars($imagenes[$i]) .'" alt="'. htmlspecialchars($nombre) .'">';
-                                          }
-                                          echo '<div class="product-info">';
-                                            echo '<span class="product-name">'. htmlspecialchars($nombre) .'</span>';
-                                            echo '<span class="product-details">'
-                                               .'Cantidad: '. $qty
-                                               .' x $'. number_format($unit,2,',','.')
-                                               .' = $'. number_format($sub,2,',','.')
-                                               .'</span>';
-                                          echo '</div>';
-                                        echo '</div>';
-                                    }
-                                    ?>
-                                </td>
-                                <td class="total-cell">$<?php echo number_format($pedido['total'],2,',','.'); ?></td>
-                                <td>
-                                    <div class="order-status <?php echo strtolower($pedido['estado']); ?>">
-                                        <?php echo htmlspecialchars($pedido['estado']); ?>
-                                    </div>
-                                </td>
-                                <td><?php echo htmlspecialchars($pedido['direccion']).'<br>'.htmlspecialchars($pedido['ciudad']); ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                    <?php else: ?>
-                        <p>No hay pedidos registrados.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
+<!-- Sección de Historial de Compras -->
+<div class="purchase-history">
+    <h3><i class="fas fa-history"></i> Historial de Compras</h3>
+    <div class="history-list">
+        <?php if($resultado_pedidos->num_rows > 0): ?>
+        <table class="purchase-table">
+            <thead>
+                <tr>
+                    <th>Pedido #</th>
+                    <th>Fecha / Hora</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php while($pedido = $resultado_pedidos->fetch_assoc()): ?>
+                <tr>
+                    <td class="order-id">#<?php echo $pedido['id']; ?></td>
+                    <td><?php echo $pedido['fecha'].'<br>'.$pedido['hora']; ?></td>
+                    <td class="total-cell">$<?php echo number_format($pedido['total'],2,',','.'); ?></td>
+                    <td>
+                        <div class="order-status <?php echo strtolower($pedido['estado']); ?>">
+                            <?php echo htmlspecialchars($pedido['estado']); ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+            <p>No hay pedidos registrados.</p>
+        <?php endif; ?>
     </div>
+</div>
+
 
     <script>
     function enableEdit() {

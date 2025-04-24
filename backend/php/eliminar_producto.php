@@ -1,11 +1,10 @@
 <?php
 session_start();
 include('conexion-bd.php');
-header('Content-Type: application/json');
 
 // Verificar si es admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    echo json_encode(['success' => false, 'error' => 'No autorizado']);
+    header('Location: /Tienda---Smoke-Shop/frontend/public/html/productos.php');
     exit();
 }
 
@@ -33,12 +32,15 @@ if (isset($_GET['id'])) {
                 unlink($ruta_imagen);
             }
         }
-        echo json_encode(['success' => true]);
+        header('Location: /Tienda---Smoke-Shop/frontend/public/html/gestinar-producto.php');
+        exit();
     } else {
-        echo json_encode(['success' => false, 'error' => 'Error al eliminar el producto']);
+        header('Location: /Tienda---Smoke-Shop/frontend/public/html/gestinar-producto.php?error=1');
+        exit();
     }
     $stmt->close();
 } else {
-    echo json_encode(['success' => false, 'error' => 'ID no proporcionado']);
+    header('Location: /Tienda---Smoke-Shop/frontend/public/html/gestinar-producto.php?error=2');
+    exit();
 }
 $conexion->close();

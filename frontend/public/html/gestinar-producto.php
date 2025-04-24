@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Verificar si es admin
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    header('Location: /Tienda---Smoke-Shop/frontend/public/html/productos.php');
+    exit();
+}
 require_once '../../../backend/php/conexion-bd.php';
 
 // Obtener productos con sus categorías
@@ -59,11 +64,13 @@ $resultado = mysqli_query($conexion, $query);
                             <td><?php echo $producto['stock']; ?></td>
                             <td class="actions">
                                 <button class="edit-btn" onclick="location.href='editar_producto.php?id=<?php echo $producto['id']; ?>'">
-                                    <i class="fas fa-edit"></i> Editar
+                                    <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="delete-btn" onclick="if(confirm('¿Está seguro de eliminar este producto?')) location.href='../../../backend/php/eliminar_producto.php?id=<?php echo $producto['id']; ?>'">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </button>
+                                <a href="../../../backend/php/eliminar_producto.php?id=<?php echo $producto['id']; ?>" 
+                                   class="delete-btn"
+                                   onclick="return confirm('¿Está seguro de eliminar este producto?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                             </td>
                         </tr>
                         <?php endwhile; ?>

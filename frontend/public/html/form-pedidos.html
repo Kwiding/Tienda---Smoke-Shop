@@ -55,7 +55,21 @@
     <script>
     function confirmarPedido() {
         if(confirm('¿Está seguro de realizar el pedido?')) {
-            // El formulario se enviará y el carrito se vaciará en el backend
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this)
+                })
+                .then(response => {
+                    alert('¡Pedido creado exitosamente!');
+                    window.location.href = '/Tienda---Smoke-Shop/frontend/public/html/productos.php';
+                })
+                .catch(error => {
+                    alert('Error al crear el pedido: ' + error);
+                });
+            });
             return true;
         }
         return false;

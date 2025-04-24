@@ -1,12 +1,11 @@
 <?php
 session_start();
-require_once '../../../backend/php/conexion-bd.php';
-
 // Verificar si es admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    header('Location: productos.php');
+    header('Location: ../../frontend/public/html/productos.php');
     exit();
 }
+require_once '../../../backend/php/conexion-bd.php';
 
 // Obtener producto
 if (isset($_GET['id'])) {
