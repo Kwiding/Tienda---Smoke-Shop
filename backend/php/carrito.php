@@ -1,77 +1,68 @@
 <?php
 session_start();
-require_once 'conexion.php';
+require_once __DIR__ . '/conexion-bd.php';
 
 // Manejo de acciones AJAX
 if (isset($_GET['action'])) {
-    header('Content-Type: application/json');
-    
-    switch($_GET['action']) {
-        case 'add':
-            $id_producto = $_GET['id'];
-            $cantidad = 1;
+    if ($_GET['action'] == 'add') {
+        $id_producto = $_GET['id'];
+        $cantidad = $_GET['cantidad'];
 
-            if (!isset($_SESSION['carrito'])) {
-                $_SESSION['carrito'] = [];
-            }
+        // Obtener el stock disponible
+        $query = "SELECT stock FROM productos WHERE id = $id_producto";
+        $resultado = mysqli_query($conexion, $query);
+        $producto = mysqli_fetch_assoc($resultado);
+        $stock = $producto['stock'];
 
-            if (isset($_SESSION['carrito'][$id_producto])) {
-                $_SESSION['carrito'][$id_producto]['cantidad'] += $cantidad;
-            } else {
-                $query = "SELECT * FROM productos WHERE id = $id_producto";
-                $resultado = mysqli_query($conexion, $query);
+        // Verificar si la cantidad no excede el stock
+        if ($cantidad > $stock) {
+            // Si la cantidad excede el stock, retornar un error
+            echo json_encode(['success' => false, 'message' => 'Cantidad excede el stock disponible.']);
+            exit;
+        }
 
-                if ($row = mysqli_fetch_assoc($resultado)) {
-                    $_SESSION['carrito'][$id_producto] = array(
-                        'id' => $row['id'],
-                        'nombre' => $row['nombre'],
-                        'precio' => $row['precio'],
-                        'cantidad' => $cantidad,
-                        'imagen' => $row['imagen']
-                    );
-                }
-            }
-            
-            echo json_encode(['success' => true]);
-            exit;
-            
-        case 'empty':
-            unset($_SESSION['carrito']);
-            echo json_encode(['success' => true]);
-            exit;
-            
-        case 'remove':
-            $id_producto = $_GET['id'];
-            unset($_SESSION['carrito'][$id_producto]);
-            echo json_encode(['success' => true]);
-            exit;
-            
-        case 'get_total':
-            $total = 0;
-            if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
-                foreach ($_SESSION['carrito'] as $producto) {
-                    $total += $producto['precio'] * $producto['cantidad'];
-                }
-            }
-            echo json_encode([
-                'success' => true, 
-                'total' => $total, 
-                'carrito' => $_SESSION['carrito'] ?? []
-            ]);
-            exit;
+        if (!isset($_SESSION['carrito'])) {
+            $_SESSION['carrito'] = [];
+        }
+
+        if (isset($_SESSION['carrito'][$id_producto])) {
+            $_SESSION['carrito'][$id_producto]['cantidad'] += $cantidad;
+        } else {
+            // Obtener los detalles del producto
+            $query = "SELECT * FROM productos WHERE id = $id_producto";
+            $resultado = mysqli_query($conexion, $query);
+            $producto = mysqli_fetch_assoc($resultado);
+            $_SESSION['carrito'][$id_producto] = [
+                'id' => $producto['id'],
+                'nombre' => $producto['nombre'],
+                'precio' => $producto['precio'],
+                'cantidad' => $cantidad,
+                'imagen' => $producto['imagen']
+            ];
+        }
+
+        // Actualizar el total de productos en el carrito
+        $total = 0;
+        foreach ($_SESSION['carrito'] as $producto) {
+            $total += $producto['cantidad'];
+        }
+
+        echo json_encode(['success' => true, 'total' => $total]);
+        exit;
     }
+
+    // Otras acciones del carrito (vaciar, eliminar) pueden ser agregadas aquí.
 }
 
-// Si no es una petición AJAX, mostrar la vista del carrito
+// Vista del carrito
 $total = 0;
 if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
     foreach ($_SESSION['carrito'] as $producto) {
         $total += $producto['precio'] * $producto['cantidad'];
     }
 }
-
-// Vista del carrito
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -161,6 +152,22 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                     }
                 });
         }
+    }
+
+    function agregarAlCarrito(id) {
+        const cantidad = parseInt(document.getElementById('cantidad-' + id).value);
+        fetch(`carrito.php?action=add&id=${id}&cantidad=${cantidad}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostrar notificación de éxito
+                    alert('Producto agregado al carrito');
+                    // Actualizar contador del carrito en la vista
+                    document.getElementById('contador-carrito').textContent = data.total;
+                } else {
+                    alert(data.message);  // Mostrar mensaje de error si excede el stock
+                }
+            });
     }
     </script>
 </body>
