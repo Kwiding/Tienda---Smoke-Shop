@@ -58,13 +58,27 @@
             const form = document.querySelector('form');
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                // Obtener el carrito desde sessionStorage
+                const carrito = JSON.parse(sessionStorage.getItem('carrito') || '[]');
+                
+                // Crear FormData con los datos del formulario y carrito
+                const formData = new FormData(this);
+                formData.append('carrito', JSON.stringify(carrito));
+
                 fetch(this.action, {
                     method: 'POST',
-                    body: new FormData(this)
+                    body: formData
                 })
-                .then(response => {
-                    alert('¡Pedido creado exitosamente!');
-                    window.location.href = '/Tienda---Smoke-Shop/frontend/public/html/productos.php';
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('¡Pedido creado exitosamente!');
+                        sessionStorage.removeItem('carrito'); // Limpiar carrito
+                        window.location.href = '/Tienda---Smoke-Shop/frontend/public/html/productos.php';
+                    } else {
+                        alert('Error al crear el pedido: ' + data.error);
+                    }
                 })
                 .catch(error => {
                     alert('Error al crear el pedido: ' + error);

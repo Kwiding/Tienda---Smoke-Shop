@@ -22,16 +22,15 @@ $query_pedidos = "
     p.fecha,
     p.hora,
     p.estado,
-    GROUP_CONCAT(pr.nombre ORDER BY lp.id ASC SEPARATOR '||')            AS productos,
-    GROUP_CONCAT(pr.precio ORDER BY lp.id ASC SEPARATOR '||')            AS precios,
-    GROUP_CONCAT(lp.unidades ORDER BY lp.id ASC SEPARATOR '||')          AS cantidades,
-    GROUP_CONCAT(pr.imagen ORDER BY lp.id ASC SEPARATOR '||')            AS imagenes,
-    COALESCE(SUM(pr.precio * lp.unidades), 0)                            AS total
+    GROUP_CONCAT(COALESCE(pr.nombre, 'Producto no disponible') SEPARATOR ', ') as productos_nombres,
+    GROUP_CONCAT(COALESCE(lp.unidades, 0) SEPARATOR ', ') as cantidades,
+    GROUP_CONCAT(COALESCE(pr.precio, 0) SEPARATOR ', ') as precios_unitarios,
+    COALESCE(SUM(pr.precio * lp.unidades), 0) as total
   FROM pedidos p
-  LEFT JOIN lineas_pedidos lp ON p.id = lp.pedido_id
+  LEFT JOIN lineas_pedidos lp ON p.id = lp.pedido_id 
   LEFT JOIN productos pr ON lp.producto_id = pr.id
   WHERE p.usuario_id = ?
-  GROUP BY p.id
+  GROUP BY p.id, p.fecha, p.hora, p.estado
   ORDER BY p.fecha DESC, p.hora DESC
 ";
 $stmt_pedidos = $conexion->prepare($query_pedidos);
@@ -83,41 +82,73 @@ $resultado_pedidos = $stmt_pedidos->get_result();
             </form>
 
             <!-- Sección de Historial de Compras -->
-<!-- Sección de Historial de Compras -->
-<div class="purchase-history">
-    <h3><i class="fas fa-history"></i> Historial de Compras</h3>
-    <div class="history-list">
-        <?php if($resultado_pedidos->num_rows > 0): ?>
-        <table class="purchase-table">
-            <thead>
-                <tr>
-                    <th>Pedido #</th>
-                    <th>Fecha / Hora</th>
-                    <th>Total</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php while($pedido = $resultado_pedidos->fetch_assoc()): ?>
-                <tr>
-                    <td class="order-id">#<?php echo $pedido['id']; ?></td>
-                    <td><?php echo $pedido['fecha'].'<br>'.$pedido['hora']; ?></td>
-                    <td class="total-cell">$<?php echo number_format($pedido['total'],2,',','.'); ?></td>
-                    <td>
-                        <div class="order-status <?php echo strtolower($pedido['estado']); ?>">
-                            <?php echo htmlspecialchars($pedido['estado']); ?>
-                        </div>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-            </tbody>
-        </table>
-        <?php else: ?>
-            <p>No hay pedidos registrados.</p>
-        <?php endif; ?>
+            <div class="purchase-history">
+                <h3><i class="fas fa-history"></i> Historial de Compras</h3>
+                <div class="history-list">
+                    <?php if($resultado_pedidos->num_rows > 0): ?>
+                    <table class="purchase-table">
+                        <thead>
+                            <tr>
+                                <th>Pedido #</th>
+                                <th>Productos</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php while($pedido = $resultado_pedidos->fetch_assoc()): 
+                            $productos = explode(', ', $pedido['productos_nombres']);
+                            $cantidades = explode(', ', $pedido['cantidades']);
+                            $precios = explode(', ', $pedido['precios_unitarios']);
+                        ?>
+                            <tr>
+                                <td class="order-id">#<?php echo $pedido['id']; ?></td>
+                                <td>
+                                    <?php 
+                                    for($i = 0; $i < count($productos); $i++) {
+                                        echo htmlspecialchars($productos[$i]) . "<br>";
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    foreach($cantidades as $cantidad) {
+                                        echo $cantidad . "<br>";
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    foreach($precios as $precio) {
+                                        if(is_numeric($precio)) {
+                                            echo "$" . number_format((float)$precio, 2, ',', '.') . "<br>";
+                                        } else {
+                                            echo "$0,00<br>";
+                                        }
+                                    }
+                                    ?>
+                                </td>
+                                <td class="total-cell">
+                                    $<?php echo number_format((float)$pedido['total'], 2, ',', '.'); ?>
+                                </td>
+                                <td>
+                                    <div class="order-status <?php echo strtolower($pedido['estado']); ?>">
+                                        <?php echo htmlspecialchars($pedido['estado']); ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                    <?php else: ?>
+                        <p>No hay pedidos registrados.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
 
     <script>
     function enableEdit() {

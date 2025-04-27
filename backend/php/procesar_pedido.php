@@ -1,8 +1,13 @@
 <?php
 session_start();
-require_once __DIR__ . '/conexion.php';
+require_once 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+header('Content-Type: application/json');
+
+try {
+    $conexion->begin_transaction();
+
+    // Obtener datos del formulario
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $departamento = $_POST['departamento'];
@@ -10,27 +15,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $direccion = $_POST['direccion'];
     $contacto = $_POST['contacto'];
     $metodo_pago = $_POST['metodo_pago'];
-    
-    // Obtener el ID del usuario si está logueado
     $usuario_id = isset($_SESSION['id']) ? $_SESSION['id'] : null;
     
-    $sql = "INSERT INTO pedidos (usuario_id, nombre_cliente, apellido_cliente, departamento, ciudad, direccion, contacto, metodo_pago, estado, fecha, hora) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pendiente', CURDATE(), CURTIME())";
-    
+    // Insertar en la tabla pedidos
+    $sql = "INSERT INTO pedidos (usuario_id, nombre_cliente, apellido_cliente, departamento, ciudad, direccion, contacto, metodo_pago) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("isssssss", $usuario_id, $nombre, $apellido, $departamento, $ciudad, $direccion, $contacto, $metodo_pago);
+    $stmt->execute();
     
-    if ($stmt->execute()) {
-        // Vaciar el carrito después de procesar el pedido exitosamente
-        unset($_SESSION['carrito']);
-        header("Location: /Tienda---Smoke-Shop/frontend/public/html/productos.php");
-        exit();
-    } else {
-        header("Location: /Tienda---Smoke-Shop/frontend/public/html/form-pedidos.html?error=1");
-        exit();
+    $pedido_id = $conexion->insert_id;
+
+    // Procesar el carrito
+    $carrito = json_decode($_POST['carrito'], true);
+    
+    foreach($carrito as $item) {
+        $sql = "INSERT INTO lineas_pedidos (pedido_id, producto_id, unidades) VALUES (?, ?, ?)";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("iii", $pedido_id, $item['id'], $item['cantidad']);
+        $stmt->execute();
+
+        // Actualizar stock
+        $sql = "UPDATE productos SET stock = stock - ? WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("ii", $item['cantidad'], $item['id']);
+        $stmt->execute();
     }
-    
-    $stmt->close();
-    $conexion->close();
+
+    $conexion->commit();
+    echo json_encode(['success' => true]);
+
+} catch (Exception $e) {
+    $conexion->rollback();
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
-?>
+
+$conexion->close();

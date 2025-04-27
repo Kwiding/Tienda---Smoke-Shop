@@ -49,9 +49,30 @@ if (isset($_GET['action'])) {
 
         echo json_encode(['success' => true, 'total' => $total]);
         exit;
+    } elseif ($_GET['action'] == 'remove') {
+        $id_producto = $_GET['id'];
+        
+        if (isset($_SESSION['carrito'][$id_producto])) {
+            unset($_SESSION['carrito'][$id_producto]);
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false]);
+        }
+        exit;
+    } elseif ($_GET['action'] == 'get_total') {
+        $total = 0;
+        if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+            foreach ($_SESSION['carrito'] as $producto) {
+                $total += $producto['precio'] * $producto['cantidad'];
+            }
+        }
+        echo json_encode([
+            'success' => true, 
+            'total' => $total,
+            'carrito' => $_SESSION['carrito']
+        ]);
+        exit;
     }
-
-    // Otras acciones del carrito (vaciar, eliminar) pueden ser agregadas aquí.
 }
 
 // Vista del carrito
@@ -131,24 +152,7 @@ if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                 .then(response => response.json())
                 .then(data => {
                     if(data.success) {
-                        // Eliminar el elemento del DOM
-                        const item = document.querySelector(`[onclick="eliminarProducto(${id})"]`).closest('.cart-item');
-                        item.remove();
-
-                        // Actualizar el precio total
-                        fetch('carrito.php?action=get_total')
-                            .then(response => response.json())
-                            .then(data => {
-                                if(data.success) {
-                                    document.getElementById('total-precio').textContent = 
-                                        new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2 }).format(data.total);
-                                    
-                                    // Si no quedan productos, mostrar mensaje
-                                    if(Object.keys(data.carrito).length === 0) {
-                                        document.querySelector('.cart-items').innerHTML = '<p>No hay productos en el carrito.</p>';
-                                    }
-                                }
-                            });
+                        location.reload(); // Recarga la página automáticamente
                     }
                 });
         }
